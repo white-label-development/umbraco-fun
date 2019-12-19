@@ -56,7 +56,7 @@ Needs a property with the alias umbracoNaviHide on the DocumentType > Generic Pr
 
 ```//Listing SubPages by Level (eg: always show level 2 items as nav (home = 1)
 .AncestorOrSelf(level) // returns DynamicPublishedContect can then get .Children()
-``
+```
 
 `.isAncestorOrSelf(CurrentPage) ? "myActiveCssClass" : null //set active nav item snippet`
 
