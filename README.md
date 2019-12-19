@@ -72,9 +72,25 @@ macros can be configured with parameters and easy to enable caching.
 `Model.GetParameterValue<int>("alias", defaultValue)`
 
 #### Models Builder
-@models builder
 
+a tool that generates strongly types models based upon Document Types. Since 7.4
 
+Generates model to memory (on startup?)
+
+replaces Dynamic Published Content support (droped in v8). `CurrentPage.Property` etc. Probs because dynamics are a pain.
+The IPublishedContent style was ` Model.Content.GetPropertyValue<T>`
+
+Models builder stylee `@Model.BodyText` is strongly typed.
+
+If the .cshtml inherits from `UmbracoTemplatePage<T>` we can access DynamicPublishedContent and IPublishedContent.
+In reality the actual class name for T will be underlined by VS, because in the native "PureLive" mode the model is generated at runtime, so currently does not exist.
+
+```
+var x = CurrentPage.ArticlePublishDate; // DPC returns a dynamic object = meh
+var y = Model.Content.GetPropertyValue<DateTime>("articlePublishDate");
+vay z = Model.Content.ArticlePublishDate; // new hotness via inherts of UmbracoTemplatePage<ContentModel.NewsItem>   
+
+```
 
 
 
