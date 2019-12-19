@@ -77,8 +77,22 @@ a tool that generates strongly types models based upon Document Types. Since 7.4
 
 Generates model to memory (on startup?)
 
-replaces Dynamic Published Content support (droped in v8). `CurrentPage.Property` etc. Probs because dynamics are a pain.
-The IPublishedContent style was ` Model.Content.GetPropertyValue<T>`
+see appSettings .Enable and .ModelsMode (PureLive ||  Dll || AppData || EnableApi || LiveDll || LiveAppData)
+
+PureLive - runtime generation - for Um backoffice template use.
+
+Dll - compiles to /bin/Umbraco.Web.PublishedContentModels.dll and restarts the application - for VS use. rm dll if switching to another mode.
+
+AppData - models generated in /app_data/Models. Requires include in VS. Restarts the app. For VS use, extend, inherit etc. rm if switching.
+
+API Models - use an API to expose models, requires VS extension (and Models builder api via Nuget). For CS use, extend, inherit and split out into a separate project. The API is only provided in debug mode. Also in appSettings .ModelsMode="", not ="EnableApi" , weirdly.
+
+
+
+
+
+Models builder replaces Dynamic Published Content support (droped in v8). `CurrentPage.Property` etc. Probs because dynamics are a pain.
+The IPublishedContent style was ` Model.Content.GetPropertyValue<T>` @CurrentPage and the UmbracoHelper query methods like @Umbraco.Content or @Umbraco.Media instead of the typed methods like @Umbraco.TypedContent and @Umbraco.TypedMedia show you are using dynamics
 
 Models builder stylee `@Model.BodyText` is strongly typed.
 
@@ -89,8 +103,18 @@ In reality the actual class name for T will be underlined by VS, because in the 
 var x = CurrentPage.ArticlePublishDate; // DPC returns a dynamic object = meh
 var y = Model.Content.GetPropertyValue<DateTime>("articlePublishDate");
 vay z = Model.Content.ArticlePublishDate; // new hotness via inherts of UmbracoTemplatePage<ContentModel.NewsItem>   
-
 ```
+
+When we create a template (in the back office) Umbraco will add `@inherits Umbraco.Web.Mvc.UmbracoTemplatePage` which gives us
+access to publsihed content models, we can traverse the tree etc.
+
+When we create a DocumentType with an associated template, the template also has the `UmbracoTemplatePage<T>` and
+`using ContentModels = Umbraco.Web.PublishedContentModels;'.
+
+With UmbracoTemplatePage<T>, @Model.Content is an instance of T. Also exposes DynamicPublishedContent.
+
+
+In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 
 
 
@@ -119,6 +143,10 @@ vay z = Model.Content.ArticlePublishDate; // new hotness via inherts of UmbracoT
 
 
 ### Links
+
+### the most important umbraco link ever is this:
+https://our.umbraco.com/documentation/reference/common-pitfalls/
+
 
 #### quickly snagged these off codeshare
 https://codeshare.co.uk/blog/how-i-use-source-control-for-my-umbraco-website-source-code-and-media/
