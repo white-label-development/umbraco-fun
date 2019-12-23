@@ -6,9 +6,12 @@ tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
 ## snippets - mostly regarding data access, pulled from Umraco.TV
 
-#### tv: Querying Umbraco data with Razor
+```
+var rootNodes = Umbraco.TypedContentAtRoot();
+var homeNodeById = rootNodes.First(x => x.Id == 1077); //by node id
+var rootNodes.FirstOrDefault(x => x.DocumentTypeAlias == "myHomePage"); //by dt alias
 
-
+```
 
 `var contentModel = Model.Content.As<GameGatewayModel>(); //cast model content to our model`
 
@@ -17,6 +20,17 @@ tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 where .Properties is a coll of `IPublishedProperty`
 
 In Um there is insert dialogue that can be used to write a lot of template code for you. Check this out for syntax basics.
+
+```
+Umbraco.TypedContentAtRoot(); //will return a collection of all nodes in the root of your content tree, irrespective of path and tree structure
+
+var siteSettings= Umbraco.TypedContentAtRoot().FirstOrDefault(x => x.ContentType.Alias.Equals("SiteSettings")); 
+```
+
+#### tv: Querying Umbraco data with Razor
+
+
+
 
 `@Umbraco.Field("promoTitle")`
 This seems to be the standard way to get data entered into a DocumentType (page) using the @Umbraco helper. 
@@ -147,6 +161,9 @@ In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 ### the most important umbraco link ever is this:
 https://our.umbraco.com/documentation/reference/common-pitfalls/
 
+https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
+
+https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-razor-using-umbraco-7-helper/
 
 #### quickly snagged these off codeshare
 https://codeshare.co.uk/blog/how-i-use-source-control-for-my-umbraco-website-source-code-and-media/
@@ -160,4 +177,6 @@ https://codeshare.co.uk/blog/how-to-create-a-carousel-in-umbraco-using-nested-co
 https://codeshare.co.uk/blog/how-to-use-donut-caching-in-umbraco-and-mvc/
 https://codeshare.co.uk/blog/how-to-get-the-picked-item-name-in-stacked-content-and-nested-content-using-ncnodename/
 https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-and-umbraco/
+
+https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
 
