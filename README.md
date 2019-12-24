@@ -150,11 +150,23 @@ In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 
 
 
+### Pipeline (from the v7 docs)
+The inbound process is triggered by the Umbraco (http) Module. The published content request preparation process kicks in to create an PublishedContentRequest instance.
 
+It is called in `UmbracoModule.ProcessRequest(…)`
 
+What it does:
 
++ It ensures Umbraco is ready, and the request is a document request.
++ Creates a PublishedContentRequest instance
++ Runs PublishedContentRequestEngine.PrepareRequest() for that instance
++ Handles redirects and status
++ Forwards missing content to 404
++ Forwards to either MVC or WebForms handlers
 
+Once the request is prepared, an instance of PublishedContentRequest is available which represents the request that Umbraco must handle. It contains everything that will be needed to render it
 
+Unless we are hihacking a route, everything then goes to `Umbraco.Web.Mvc.RenderMvcController` `Index()`
 
 ### Links
 
