@@ -170,10 +170,15 @@ Unless we are hihacking a route, everything then goes to `Umbraco.Web.Mvc.Render
 
 ### Links
 
-### the most important umbraco link ever is this:
+#### the most important umbraco link ever is this:
 https://our.umbraco.com/documentation/reference/common-pitfalls/
 
+
+
+#### others
 https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
+
+https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/umbraco-deployment/how-to-configure-umbraco-to-work-in-a-load-balanced-environment/
 
 https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-razor-using-umbraco-7-helper/
 
