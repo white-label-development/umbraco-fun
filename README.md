@@ -179,15 +179,25 @@ https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-r
 
 #### quickly snagged these off codeshare
 https://codeshare.co.uk/blog/how-i-use-source-control-for-my-umbraco-website-source-code-and-media/
+
 https://codeshare.co.uk/blog/how-to-set-the-default-page-base-type-to-umbracoviewpage-in-umbraco/
+
 https://codeshare.co.uk/blog/xml-sitemap-in-umbraco-website/
+
 https://codeshare.co.uk/blog/how-to-search-by-document-type-and-property-in-umbraco/
+
 https://codeshare.co.uk/blog/how-to-find-the-home-page-in-umbraco/
+
 https://codeshare.co.uk/blog/umbraco-related-links-into-c-class-objects/
+
 https://codeshare.co.uk/blog/how-to-use-an-umbraco-data-type-to-populate-an-mvc-drop-down-list/
+
 https://codeshare.co.uk/blog/how-to-create-a-carousel-in-umbraco-using-nested-content-and-bootstrap/
+
 https://codeshare.co.uk/blog/how-to-use-donut-caching-in-umbraco-and-mvc/
+
 https://codeshare.co.uk/blog/how-to-get-the-picked-item-name-in-stacked-content-and-nested-content-using-ncnodename/
+
 https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-and-umbraco/
 
 https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
