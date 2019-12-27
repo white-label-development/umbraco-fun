@@ -175,12 +175,6 @@ https://our.umbraco.com/documentation/reference/common-pitfalls/
 
 
 
-#### others
-https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
-
-https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/umbraco-deployment/how-to-configure-umbraco-to-work-in-a-load-balanced-environment/
-
-https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-razor-using-umbraco-7-helper/
 
 #### quickly snagged these off codeshare
 https://codeshare.co.uk/blog/how-i-use-source-control-for-my-umbraco-website-source-code-and-media/
@@ -204,6 +198,14 @@ https://codeshare.co.uk/blog/how-to-use-donut-caching-in-umbraco-and-mvc/
 https://codeshare.co.uk/blog/how-to-get-the-picked-item-name-in-stacked-content-and-nested-content-using-ncnodename/
 
 https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-and-umbraco/
+
+#### others
+
+https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
+
+https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/umbraco-deployment/how-to-configure-umbraco-to-work-in-a-load-balanced-environment/
+
+https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-razor-using-umbraco-7-helper/
 
 https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
 
