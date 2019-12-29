@@ -6,6 +6,8 @@ tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
 ## snippets - mostly regarding data access, pulled from Umraco.TV
 
+IPublishedContent is the standard model used for all published content.
+
 ```
 var rootNodes = Umbraco.TypedContentAtRoot();
 var homeNodeById = rootNodes.First(x => x.Id == 1077); //by node id
@@ -29,8 +31,11 @@ var siteSettings= Umbraco.TypedContentAtRoot().FirstOrDefault(x => x.ContentType
 
 #### tv: Querying Umbraco data with Razor
 
+If you are working in a custom MVC Controller's action, a model of type `RenderModel` will be provided in the Action's method parameters. This model contains an instance of `IPublishedContent` which you can use.
 
+When you are working in a View of type `UmbracoTemplatePage` (which is the default view type), the Model provided to that view will also be `RenderModel` (which exposes IPublishedContent).
 
+All Umbraco view page types inherit from `UmbracoViewPage<TModel>`. A neat trick is that if you want your view Model to be `IPublishedContent` you can change your view type to `UmbracoViewPage<IPublishedContent>` and the view will still render without issue even though the controller is passing it a model of type `RenderModel`.
 
 `@Umbraco.Field("promoTitle")`
 This seems to be the standard way to get data entered into a DocumentType (page) using the @Umbraco helper. 
