@@ -9,6 +9,15 @@ tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 IPublishedContent is the standard model used for all published content.
 
 ```
+int Id { get; }
+…
+IPublishedContent Parent { get; }
+IEnumerable<IPublishedContent> Children { get; }
+```
+
+
+
+```
 var rootNodes = Umbraco.TypedContentAtRoot();
 var homeNodeById = rootNodes.First(x => x.Id == 1077); //by node id
 var rootNodes.FirstOrDefault(x => x.DocumentTypeAlias == "myHomePage"); //by dt alias
@@ -156,7 +165,10 @@ In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 
 
 ### Pipeline (from the v7 docs)
-The inbound process is triggered by the Umbraco (http) Module. The published content request preparation process kicks in to create an PublishedContentRequest instance.
+
+The request pipeline is the process of building up the URL for a node, resolving a request to a specified node and making sure that the right content is sent back.
+
+Inbound is every request received by the web server and handled by Umbraco.. The inbound process is triggered by the Umbraco (http) Module. The published content request preparation process kicks in to create an PublishedContentRequest instance.
 
 It is called in `UmbracoModule.ProcessRequest(…)`
 
@@ -171,7 +183,90 @@ What it does:
 
 Once the request is prepared, an instance of PublishedContentRequest is available which represents the request that Umbraco must handle. It contains everything that will be needed to render it
 
+Umbraco runs all content finders, stops at the first one that returns true.
+Finder can set content, template, redirect… eg:
+
+```
+public class MyContentFinder : IContentFinder
+{
+    public bool TryFindContent(PublishedContentRequest request)
+    {
+        var path = request.Uri.GetAbsolutePathDecoded();
+        if (!path.StartsWith("/woot"))
+        return false; // not found
+        
+        // have we got a node with ID 1234?
+        var contentCache = UmbracoContext.Current.ContentCache;
+        var content = contentCache.GetById(1234);
+        if (content == null) return false; // not found
+     
+        // render that node
+        request.PublishedContent = content;
+        return true;
+    }
+}
+```
+
 Unless we are hihacking a route, everything then goes to `Umbraco.Web.Mvc.RenderMvcController` `Index()`
+
+`Something something = SomethingResolver.Curent.Something; // uses object resolvers to get interface implementations`
+
+Resolvers are initialised when the app starts, then resolution is frozen.
+
+##### Application Event Handler
+
+Umbraco will find and run every implementation of `IApplicationEventHandler`. 
+Better to inherit from the abstract class, and override only what’s needed.
+
+`void OnApplicationInitialised` = ApplicationContext Exists.
+
+`void OnApplicationStarting` = resolvers initialized, resolution not frozen
+
+`void OnApplicationStarted` = Boot completed, resolution is frozen.
+
+
+```
+public class MyApplication : ApplicationEventHandler
+{
+    protected override void ApplicationStarting(…)
+    {
+        SomethingResolver.Current.SetSomething(new SomethingBetter());
+        SomethingsResolver.Current.RemoveType<Something>();
+        SomethingsResolver.Current.AddType<SomethingBetter>();
+    }
+}
+```
+^^ Drop that class anywhere in your code and you're done configuring the resolver.
+
+##### User Request > Request Pipeline 
+**Inbound request pipeline (match url to a content item and determine rendering engine)**
+
+**Controller selection (match contoller+action to request)**
+
+##### Execute request (MVC action+view are executed. Can query for published data)
+**IPublishedContent**
+
+**DynamicPubiishedContent (avoid as dropped in 8, but used in Zeit)**
+
+**Umbraco Helper (use to query published media and content)**
+
+**Members (MembershipHelper)**
+
+
+
+
+##### Outbound pipeline
+
+Outbound is the process of building up a URL for a requested node.
+
+Creates segments: “our-products”, “swibble”…
+
+Creates paths:  “/our-products/swibble”
+
+Creates urls: “http://site.com/our-products/swibble.aspx”
+
+Each published content has a url segment, a.k.a. “urlName”.
+
 
 ### Links
 
@@ -213,4 +308,6 @@ https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/umbraco-deployme
 https://farmcode.org/articles/how-to-get-umbraco-root-node-by-document-type-in-razor-using-umbraco-7-helper/
 
 https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
+
+https://our.umbraco.com/documentation/Reference/Routing/Request-Pipeline/document/TheUmbracoRequestPipeline.pdf
 
