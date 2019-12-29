@@ -2,6 +2,8 @@
 
 learning umbraco...
 
+@unit testing 291219
+
 tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
 ## snippets - mostly regarding data access, pulled from Umraco.TV
@@ -37,6 +39,56 @@ Umbraco.TypedContentAtRoot(); //will return a collection of all nodes in the roo
 
 var siteSettings= Umbraco.TypedContentAtRoot().FirstOrDefault(x => x.ContentType.Alias.Equals("SiteSettings")); 
 ```
+#### DI
+
+
+```
+ISiteService SiteService = Current.Factory.GetInstance<ISiteService>();
+IPublishedContent newsSection = SiteService.GetNewsSection();
+```
+???
+```
+public class RegisterSiteServiceComposer : IUserComposer
+{
+    public void Compose(Composition composition)
+    {
+        // if your service makes use of the current UmbracoContext, eg AssignedContentItem - register the service in Request scope
+        // composition.Register<ISiteService, SiteService>(Lifetime.Request);
+        // if not then it is better to register in 'Singleton' Scope
+        composition.Register<ISiteService, SiteService>(Lifetime.Singleton);
+    }
+}
+```
+???
+
+
+
+
+#### Service Context
+
+The Umbraco Services layer is used to query and manipulate Umbraco stored in the database. Exposed as a property on all Umbraco base classes such as SurfaceControllers, UmbracoApiControllers, any Umbraco views, etc. eg: `Services.ContentService.Get(123);`.
+
+If you are not working with an Umbraco base class and the ServiceContext is not exposed, you can access the ServiceContext via the ApplicationContext. Like the ServiceContext, the ApplicationContext is exposed an all Umbraco base classes, but in the rare case that you are not using an Umbraco base class, you can access the ApplicationContext via a singleton. For example:
+```
+ApplicationContext.Current.Services.ContentService.Get(123); // do not use this is a view/template, see below
+```
+
+"Although there is a management Service named the ContentService - only use this to modify content - do not use the ContentService in a View/Template to pull back data to display, this will make requests to the database and be slow - here instead use the generically named UmbracoHelper to access the PublishedContentQuery methods that operate against a cache of published content items, and are significantly quicker."
+
+```
+ IPublishedContent publishedContentItem = Umbraco.Content(123); // from a template/view (that :UmbracoViewPage) retrieve an item from Umbraco's published cache with id 123
+```
+^^ same of a custom Contoller. Both can use `Services`. Both have an Umbraco context.
+
+Components, ContentFinders, Custom C# clases may not have the Umbraco context.
+
+UmbracoContext, UmbracoHelper, PublishedContentQuery - are all based on an HttpRequest - their lifetime is controlled by an HttpRequest. So if you are not operating within an actual request, you cannot inject these parameters and if you try to ... Umbraco will report a 'boot' error on startup.
+
+```
+
+
+``
+
 
 #### tv: Querying Umbraco data with Razor
 
@@ -145,69 +197,25 @@ With UmbracoTemplatePage<T>, @Model.Content is an instance of T. Also exposes Dy
 In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 
 
+### "Composing" (Customising the behaviour at 'start up'. e.g. adding, removing or replacing the core functionality of Umbraco or registering custom code to subscribe to events.)
 
+An Umbraco application is a Composition made of many different 'collections' and single items of specific functionality/implementation logic/components (eg. UrlProviders, ContentFinders etc). These collections are populated when the Umbraco Application starts up.
 
+'Composing' is the term used to describe the process of curating which pieces of functionality should be included in a particular collection. The code that implements these choices at start up is called a `Composer`.
 
+How are the collections populated? - Either by scanning the codebase for c# classes that inherit from a particular base class or implement a particular interface (typed scanned) or by being explicitly registered via a Composer.
 
+A `Component` is a generic wrapper for writing custom code during composition, it has two methods: `Initialize()` and `Terminate()` and these are executed when the Umbraco Application starts up, and when it shuts down, respectively. Typically a Component may be used to wire up custom code to handle a particular event in Umbraco. see https://our.umbraco.com/documentation/Implementation/Composing/
 
+Umbraco ships with a set of ICoreComposer's that pull together the default set of components and collections that deliver the core 'out of the box' Umbraco behaviour. See `IUserComposer`'s (for developers to use) and `IComponent`.
 
-
-
-
-
-
-
-
-
-
-
-
+A collection builder builds a collection, allowing users to add and remove types before anything is registered into DI.
 
 
 ### Pipeline (from the v7 docs)
 
 The request pipeline is the process of building up the URL for a node, resolving a request to a specified node and making sure that the right content is sent back.
 
-Inbound is every request received by the web server and handled by Umbraco.. The inbound process is triggered by the Umbraco (http) Module. The published content request preparation process kicks in to create an PublishedContentRequest instance.
-
-It is called in `UmbracoModule.ProcessRequest(…)`
-
-What it does:
-
-+ It ensures Umbraco is ready, and the request is a document request.
-+ Creates a PublishedContentRequest instance
-+ Runs PublishedContentRequestEngine.PrepareRequest() for that instance
-+ Handles redirects and status
-+ Forwards missing content to 404
-+ Forwards to either MVC or WebForms handlers
-
-Once the request is prepared, an instance of PublishedContentRequest is available which represents the request that Umbraco must handle. It contains everything that will be needed to render it
-
-Umbraco runs all content finders, stops at the first one that returns true.
-Finder can set content, template, redirect… eg:
-
-```
-public class MyContentFinder : IContentFinder
-{
-    public bool TryFindContent(PublishedContentRequest request)
-    {
-        var path = request.Uri.GetAbsolutePathDecoded();
-        if (!path.StartsWith("/woot"))
-        return false; // not found
-        
-        // have we got a node with ID 1234?
-        var contentCache = UmbracoContext.Current.ContentCache;
-        var content = contentCache.GetById(1234);
-        if (content == null) return false; // not found
-     
-        // render that node
-        request.PublishedContent = content;
-        return true;
-    }
-}
-```
-
-Unless we are hihacking a route, everything then goes to `Umbraco.Web.Mvc.RenderMvcController` `Index()`
 
 `Something something = SomethingResolver.Curent.Something; // uses object resolvers to get interface implementations`
 
@@ -238,10 +246,64 @@ public class MyApplication : ApplicationEventHandler
 ```
 ^^ Drop that class anywhere in your code and you're done configuring the resolver.
 
+
+
 ##### User Request > Request Pipeline 
 **Inbound request pipeline (match url to a content item and determine rendering engine)**
 
+Inbound is every request received by the web server and handled by Umbraco.. The inbound process is triggered by the Umbraco (http) Module. The published content request preparation process kicks in to create an `PublishedContentRequest` instance.
+
+It is called in `UmbracoModule.ProcessRequest(…)`
+
+What it does:
+
++ It ensures Umbraco is ready, and the request is a document request.
++ Creates a PublishedContentRequest instance
++ Runs PublishedContentRequestEngine.PrepareRequest() for that instance
++ Handles redirects and status
++ Forwards missing content to 404 (with the last chance IContentFinder I think)
++ Forwards to either MVC or WebForms handlers
+
+Once the request is prepared, an instance of `PublishedContentRequest` is available which represents the request that Umbraco must handle. It contains everything that will be needed to render it
+
+All Umbraco content is looked up based on the URL in the current request using an IContentFinder. IContentFinder's you can create and implement on your own which will allow you to map any URL to an Umbraco content item.
+Umbraco runs all content finders, stops at the first one that returns true.
+
+Finder can set content, template, redirect… eg:
+
+```
+public class MyContentFinder : IContentFinder
+{
+    public bool TryFindContent(PublishedContentRequest request)
+    {
+        var path = request.Uri.GetAbsolutePathDecoded();
+        if (!path.StartsWith("/woot"))
+        return false; // not found
+        
+        // have we got a node with ID 1234?
+        var contentCache = UmbracoContext.Current.ContentCache;
+        var content = contentCache.GetById(1234);
+        if (content == null) return false; // not found
+     
+        // render that node
+        request.PublishedContent = content;
+        return true;
+    }
+}
+```
+
+Unless we are hihacking a route (when custom controllers are created to execute for different Umbraco Document Types and Templates) or have a custom implmentation (set in ApplicationStarting), everything then goes to `Umbraco.Web.Mvc.RenderMvcController` `Index()`
+
+
+
 **Controller selection (match contoller+action to request)**
+Once the published content request has been created, and MVC is the selected rendering engine, it's time to execute an MVC Controller's Action.
+
+Any MVC Controller or Action that is attributed with `Umbraco.Web.Mvc.UmbracoAuthorizeAttribute` will authenticate the request for a backoffice user.
+
+A SurfaceController is an MVC controller that interacts with the front-end rendering of an UmbracoPage. They can be used for rendering MVC Child Actions and for handling form data submissions. SurfaceControllers are auto-routed.
+
+
 
 ##### Execute request (MVC action+view are executed. Can query for published data)
 **IPublishedContent**
@@ -251,7 +313,7 @@ public class MyApplication : ApplicationEventHandler
 **Umbraco Helper (use to query published media and content)**
 
 **Members (MembershipHelper)**
-
+MembershipHelper is a helper class for accessing member data in the form of IPublishedContent.
 
 
 
@@ -267,6 +329,9 @@ Creates urls: “http://site.com/our-products/swibble.aspx”
 
 Each published content has a url segment, a.k.a. “urlName”.
 
+### Bits for later
+
+`composition.HealthChecks().Add<FolderAndFilePermissionsCheck>();` add EPIC orders?
 
 ### Links
 
