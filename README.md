@@ -84,10 +84,17 @@ Components, ContentFinders, Custom C# clases may not have the Umbraco context.
 
 UmbracoContext, UmbracoHelper, PublishedContentQuery - are all based on an HttpRequest - their lifetime is controlled by an HttpRequest. So if you are not operating within an actual request, you cannot inject these parameters and if you try to ... Umbraco will report a 'boot' error on startup.
 
+#### Surface Controllers
+
+Are MVC controllers (inherit from Umraco.Web.Mvc.SurfaceController) that interact with the front end rendering of an Umbraco page.
+
+Used to render Child Action content and handle form data submission. Has access to Umbraco helper methods and properties (via inheritance).
+
+```
+@Html.Action("Index", "TempExampleSurface")
 ```
 
-
-``
+To use surface controllers in the RTE use a macro.
 
 
 #### tv: Querying Umbraco data with Razor
