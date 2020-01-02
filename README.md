@@ -274,6 +274,19 @@ With UmbracoTemplatePage<T>, @Model.Content is an instance of T. Also exposes Dy
 In v8 this is `UmbracoViewPage<T>` and @Model is an instance of T
 
 
+### Events
+
+Subscribe when Application starts, so will inherit ApplicationEventHandler and override ApplicationStarted.
+
+Can find events with intellisense, eg: Umbraco.Core.Servcies.ContentService. ... Publishing, Published etc
+
+`Umbraco.Core.Servcies.ContentService.published += MyContentService_Published;`
+
+`e.Cancel = true; //cancel in a "before" event, such as Publishing.`
+
+
+
+
 ### "Composing" (Customising the behaviour at 'start up'. e.g. adding, removing or replacing the core functionality of Umbraco or registering custom code to subscribe to events.)
 
 An Umbraco application is a Composition made of many different 'collections' and single items of specific functionality/implementation logic/components (eg. UrlProviders, ContentFinders etc). These collections are populated when the Umbraco Application starts up.
