@@ -10,6 +10,8 @@ tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
 IPublishedContent is the standard model used for all published content.
 
+For read operation use `UmbracoHelper` to access the `PublishedContentQuery` methods as these operate against a cache of published content items, and are significantly quicker.
+
 ```
 int Id { get; }
 …
@@ -41,12 +43,18 @@ var siteSettings= Umbraco.TypedContentAtRoot().FirstOrDefault(x => x.ContentType
 ```
 #### DI
 
+Can make use of the underlying DI framework to create custom Services and Helpers, that in turn can have the 'core' management Services and Umbraco Helpers injected into them.
 
+Note: choose what to inject: `IPublishedContentQuery ` (has an UmbracoContext) vs `IUmbracoContextFactory + EnsureUmbracoContext()` (no UmbracoContext, eg: an event hamdler) (you should NEVER have to inject the UmbracoContext itself directly into any of your constructors)
+
+To access the service directly from the view you would need to use the Service Locator pattern and the Current.Factory.GetInstance() method to get a reference to the concrete implementation of the service registered with DI:
 ```
 ISiteService SiteService = Current.Factory.GetInstance<ISiteService>();
 IPublishedContent newsSection = SiteService.GetNewsSection();
 ```
-???
+
+
+Register the custom service with Umbraco's underlying DI container using an IUserComposer:
 ```
 public class RegisterSiteServiceComposer : IUserComposer
 {
@@ -59,7 +67,20 @@ public class RegisterSiteServiceComposer : IUserComposer
     }
 }
 ```
-???
+Because we've registered the SiteService withthe DI framework we can inject the service into our controller's constructor, in the same way as 'core' Services and Helpers.
+```
+public BlogPostController(ISiteService siteService)
+{
+    _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
+}
+
+//or more correctly use the following example instead which supplies all constructor parameters for the base class.
+public BlogPostController(IGlobalSettings globalSettings, IUmbracoContextAccessor umbracoContextAccessor, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, UmbracoHelper umbracoHelper, ISiteService siteService)
+            : base(globalSettings, umbracoContextAccessor, services, appCaches, profilingLogger, umbracoHelper)
+{
+    _siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
+}
+```
 
 
 
@@ -82,7 +103,13 @@ ApplicationContext.Current.Services.ContentService.Get(123); // do not use this 
 
 Components, ContentFinders, Custom C# clases may not have the Umbraco context.
 
-UmbracoContext, UmbracoHelper, PublishedContentQuery - are all based on an HttpRequest - their lifetime is controlled by an HttpRequest. So if you are not operating within an actual request, you cannot inject these parameters and if you try to ... Umbraco will report a 'boot' error on startup.
+UmbracoContext, UmbracoHelper, PublishedContentQuery - are all based on an HttpRequest - their lifetime is controlled by an HttpRequest. So if you are not operating within an actual request, you cannot inject these parameters and if you try to ... Umbraco will report a 'boot' error on startup. However, there is a technique that allows the querying of the Umbraco Published Content, using the `UmbracoContextFactory` and calling `EnsureUmbracoContext()`.
+
+It's possible to inject management Services that do not rely on the UmbracoContext into the constructor of a component. 
+
+```
+public SubscribeToContentSavedEventComponent(IMediaService mediaService) { ... } //see Composing for more...
+```
 
 #### Surface Controllers
 
