@@ -2,11 +2,10 @@
 
 learning umbraco...
 
-@unit testing 291219
 
 tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
-## snippets - mostly regarding data access, pulled from Umraco.TV
+## snippets - mostly regarding data access.
 
 IPublishedContent is the standard model used for all published content.
 
@@ -41,7 +40,18 @@ Umbraco.TypedContentAtRoot(); //will return a collection of all nodes in the roo
 
 var siteSettings= Umbraco.TypedContentAtRoot().FirstOrDefault(x => x.ContentType.Alias.Equals("SiteSettings")); 
 ```
+
+https://our.umbraco.com/Documentation/Reference/Querying/IPublishedContent/Collections/index-v7
+
+UDI's from 7.6+ eg: `umb://document/4fed18d8c5e34d5e88cfff3a5b457bf2`
+
+
 #### DI
+
+setup via `OnApplicationStarted` or `Umbraco.Web.IApplicationEventHandler`.
+
+`builder.RegisterType<MyAwesomeContext>(); // add custom class to the container as Transient instance`
+
 
 Can make use of the underlying DI framework to create custom Services and Helpers, that in turn can have the 'core' management Services and Umbraco Helpers injected into them.
 
@@ -124,7 +134,25 @@ Used to render Child Action content and handle form data submission. Has access 
 To use surface controllers in the RTE use a macro.
 
 
-#### tv: Querying Umbraco data with Razor
+#### Content API
+
+`ContentService` is the gateway to the Content API. If using within a `SurfaceController`, is available using `.Services`
+
+scenario: front end 'add comment' form posts to a SurfaceController. We want to save the content.
+
+Using `Services.ContentService.CreateContent()`
+we need: Name (for new Content), ParentId, DocumentTypeAlias (for new Content). 
+
+```
+var newComment = Services.ContentService.CreateContent("my new Comment", CurrentPage.Id, "Comment");
+newComment.setValue("name", model.Name);
+...
+Services.ContentServices.SaveAndPublish(newComment);
+
+
+```
+
+#### Querying Umbraco data
 
 If you are working in a custom MVC Controller's action, a model of type `RenderModel` will be provided in the Action's method parameters. This model contains an instance of `IPublishedContent` which you can use.
 
@@ -166,13 +194,28 @@ Needs a property with the alias umbracoNaviHide on the DocumentType > Generic Pr
 
 `string imageUrl = Model.Content.GetPropertyValue<IPublishedContent>("headerImage").Url; //img url `
 
-`CurrentPage.Children  //Listing SubPages rfom Current Page`
 
-```//Listing SubPages by Level (eg: always show level 2 items as nav (home = 1)
+
+```
+CurrentPage.Children  //Listing SubPages rfom Current Page
+CurrentPage.Ancestors //Returns all ancestors of the current page (parent page, grandparent and so on)
+CurrentPage.Ancestor //Returns the first ancestor of the current page
+CurrentPage.Descendants //Returns all descendants of the current page (children, grandchildren etc)
+CurrentPage..DescendantsOrSelf //Returns all descendants of the current page (children, grandchildren etc), and the current page itself
+
+
+//Listing SubPages by Level (eg: always show level 2 items as nav (home = 1)
 .AncestorOrSelf(level) // returns DynamicPublishedContect can then get .Children()
+
+
+@foreach(var item in Model.Content.DescendantsOrSelf().OfTypes("widget1", "widget2")) { ... }
+
+var nodes = Model.Content.Children.OrderBy(x => x.GetPropertyValue<string>("title"))
 ```
 
 `.isAncestorOrSelf(CurrentPage) ? "myActiveCssClass" : null //set active nav item snippet`
+
+**Templates** are used for the HTML layout of your pages. **Partials** can be included in your templates for shared functionality across different page templates. **Macros** can be used for reusable dynamic components that can be controlled by editors to embed functionality into the grid or rich text areas.
 
 
 #### Macros (templates, RTE, Grid) and Partial (templates) Views
@@ -363,9 +406,14 @@ Creates urls: “http://site.com/our-products/swibble.aspx”
 
 Each published content has a url segment, a.k.a. “urlName”.
 
+
+
+#### Property Editors
+
+
 ### Bits for later
 
-`composition.HealthChecks().Add<FolderAndFilePermissionsCheck>();` add EPIC orders?
+`composition.HealthChecks().Add<FolderAndFilePermissionsCheck>();` add EPIC orders? needs 7.5+
 
 ### Links
 
@@ -399,6 +447,8 @@ https://codeshare.co.uk/blog/how-to-get-the-picked-item-name-in-stacked-content-
 https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-and-umbraco/
 
 #### others
+
+https://our.umbraco.org/apidocs/v7/csharp/api/Umbraco.Core.html
 
 https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
 
