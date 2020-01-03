@@ -5,6 +5,8 @@ learning umbraco...
 
 tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
+xxxx.localtest.me > 127.0.0.1 trick is new (not Um specific)
+
 ## snippets - mostly regarding data access.
 
 IPublishedContent is the standard model used for all published content.
