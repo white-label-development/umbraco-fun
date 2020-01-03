@@ -284,7 +284,15 @@ Can find events with intellisense, eg: Umbraco.Core.Servcies.ContentService. ...
 
 `e.Cancel = true; //cancel in a "before" event, such as Publishing.`
 
+### Compsing replaces? Events, or some of them
 
+"What's the benefir of compsong? For example when you wanted to change how things where composed (register a new finder etc) you would have to remember to do it in the proper “event” – and people were always confused – now there’s the Composemethod explicitly for this usage – same for Initialize, more explicit + manages dependencies & injection
+
+Also components can depend on each other and this ensures they run one after another, whereas ApplicationEventHandlers were in random order and are easy to enable/disable components, which could not be done with app handlers.
+
+oh and components also terminate meaning they are notified when Umbraco stops
+
+so you create a component, and in Compose you tell Umbraco that it should use MyCache as a content cache. In Initialize you load your cache from wherever you want. In Terminate you flush changes to disk."
 
 
 ### "Composing" (Customising the behaviour at 'start up'. e.g. adding, removing or replacing the core functionality of Umbraco or registering custom code to subscribe to events.)
