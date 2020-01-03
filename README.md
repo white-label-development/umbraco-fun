@@ -430,7 +430,15 @@ Creates urls: “http://site.com/our-products/swibble.aspx”
 
 Each published content has a url segment, a.k.a. “urlName”.
 
+#### Client Dependency
 
+```
+@RequiresCss("https://x/x/x/"); //for each file to be bundled
+@RequiresJs("/js/x.js");
+...
+@Html.RenderCssHere() //the bundled file. rendered based on debug = true | false
+@Html.RenderJsHere()
+```
 
 #### Property Editors
 
