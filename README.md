@@ -309,6 +309,7 @@ Umbraco ships with a set of ICoreComposer's that pull together the default set o
 
 A collection builder builds a collection, allowing users to add and remove types before anything is registered into DI.
 
+see `UmbracoComponentBase, IUmbracoUserComponent`
 
 ### Pipeline (from the v7 docs)
 
