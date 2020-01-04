@@ -13,7 +13,11 @@ Create pages, but without direct 'properties'. Instead, create Compositions and 
 eg:
 New Compostion > Document Type without a Template > "Visibility Controls" > add umbracoNaviHide > TrueFalse. add hideFromXmlMap > true false. 
 
-Other compositions might be "Content Controls", "Article Controls"
+Other compositions might be "Content Controls", "Article Controls", "Header Controls". Of note: "Contact Form Controls" - which contains entries for a SucessMessage and a FailureMessage. Good idea!
+
+Use of Elements for icons, for use in nested content etc.
+
+
 
 
 ## snippets - mostly regarding data access.
@@ -35,7 +39,12 @@ IEnumerable<IPublishedContent> Children { get; }
 var rootNodes = Umbraco.TypedContentAtRoot();
 var homeNodeById = rootNodes.First(x => x.Id == 1077); //by node id
 var rootNodes.FirstOrDefault(x => x.DocumentTypeAlias == "myHomePage"); //by dt alias
+```
 
+```
+var title = Model.HasValue("title") ? Model.Value("title") : Model.Name;
+var image = Model.Value<IPublishedContent>("myImage"); // also ,fallback: Fallback.ToAncestors to look up if null.
+string imageUrl = imaage.GetCropUrl(800, 600);
 ```
 
 `var contentModel = Model.Content.As<GameGatewayModel>(); //cast model content to our model`
