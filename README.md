@@ -196,7 +196,7 @@ var selection = Model.Content.Site().FirstChild("blogPage").Children("blogItem")
 There is an Umbraco "convention" where umbracoNaviHide and Visible can be used to hide by conventions.
 
 Needs a property with the alias umbracoNaviHide on the DocumentType > Generic Properties, as TrueFalse Type this allows the
-.Where("Visible") bit. This is different from `x => x.IsVisible` which is full hiding, not just from nav
+.Where("Visible") bit. This is different from `x => x.IsVisible` which is full hiding, not just from nav EDIT: x => x.IsVisible() does seem to relate to umbracoNaviHide.
 
 
 ```
