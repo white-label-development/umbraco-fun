@@ -1,6 +1,16 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
-	Layout = null;
+    Layout = null;
+
+    var home = Model.AncestorOrSelf<Home>();
+    var content = Model as IContentControls;
+
+    var title = home.Title ?? home.Name;
+    var subTitle = string.Empty;
+    if(content != null) {
+        title = content.Title ?? content.Name;
+        subTitle = content.SubTitle;
+    }
 }
 
 <!DOCTYPE html>
@@ -13,7 +23,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Clean Blog - Start Bootstrap Theme</title>
+	<title>@title</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -57,15 +67,15 @@
 		</div>
 	</nav>
 
-	<!-- Page Header -->
-	<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+	<!-- Page Header  '/img/home-bg.jpg  <img src="https://media.giphy.com/media/k6Wm3KbGfY7rk6PK4L/giphy.gif" /> -->
+	<header class="masthead" style="background-image: url('https://media.giphy.com/media/k6Wm3KbGfY7rk6PK4L/giphy.gif')">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-md-10 mx-auto">
 					<div class="site-heading">
-						<h1>Clean Blog</h1>
-						<span class="subheading">A Blog Theme by Start Bootstrap</span>
+						<h1>@title</h1>
+						<span class="subheading">@subTitle</span>
 					</div>
 				</div>
 			</div>

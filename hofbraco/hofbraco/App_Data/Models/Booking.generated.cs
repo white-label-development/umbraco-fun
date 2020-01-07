@@ -53,6 +53,13 @@ namespace Umbraco.Web.PublishedModels
 		public Newtonsoft.Json.Linq.JToken MainContent => ContentControls.GetMainContent(this);
 
 		///<summary>
+		/// SubTitle
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
+		[ImplementPropertyType("subTitle")]
+		public string SubTitle => ContentControls.GetSubTitle(this);
+
+		///<summary>
 		/// Title
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]

@@ -422,6 +422,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Data\Models\About.generated.cs" />
+    <Compile Include="App_Data\Models\Booking.generated.cs" />
     <Compile Include="App_Data\Models\ContentControls.generated.cs" />
     <Compile Include="App_Data\Models\File.generated.cs" />
     <Compile Include="App_Data\Models\Folder.generated.cs" />

@@ -28,6 +28,10 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		Newtonsoft.Json.Linq.JToken MainContent { get; }
 
+		/// <summary>SubTitle</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
+		string SubTitle { get; }
+
 		/// <summary>Title</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		string Title { get; }
@@ -68,6 +72,17 @@ namespace Umbraco.Web.PublishedModels
 		/// <summary>Static getter for Main Content</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		public static Newtonsoft.Json.Linq.JToken GetMainContent(IContentControls that) => that.Value<Newtonsoft.Json.Linq.JToken>("mainContent");
+
+		///<summary>
+		/// SubTitle
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
+		[ImplementPropertyType("subTitle")]
+		public string SubTitle => GetSubTitle(this);
+
+		/// <summary>Static getter for SubTitle</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
+		public static string GetSubTitle(IContentControls that) => that.Value<string>("subTitle");
 
 		///<summary>
 		/// Title
