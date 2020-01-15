@@ -498,6 +498,8 @@ https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-an
 
 #### others
 
+https://www.jordanbradleyward.com/umbraco/umbraco-initial-developer-workshop/
+
 https://our.umbraco.org/apidocs/v7/csharp/api/Umbraco.Core.html
 
 https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/
