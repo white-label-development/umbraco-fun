@@ -512,3 +512,4 @@ https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
 
 https://our.umbraco.com/documentation/Reference/Routing/Request-Pipeline/document/TheUmbracoRequestPipeline.pdf
 
+https://www.stephengarside.co.uk/blog/umbraco-custom-dropdown-macro-property/
