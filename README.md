@@ -496,6 +496,21 @@ https://codeshare.co.uk/blog/how-to-get-the-picked-item-name-in-stacked-content-
 
 https://codeshare.co.uk/blog/how-to-include-scripts-from-partial-views-in-mvc-and-umbraco/
 
+#### testing
+https://www.jondjones.com/learn-umbraco-cms/umbraco-7-tutorials/umbraco-unit-testing/how-to-unit-test-your-umbraco-website/
+
+http://blog.aabech.no/archive/the-basics-of-unit-testing-umbraco-just-got-simpler/
+
+https://our.umbraco.com/forum/umbraco-8/96366-unit-testing-v8
+
+https://skrift.io/articles/archive/unit-testing-umbraco-with-umbraco-context-mock/
+
+https://our.umbraco.com/forum/umbraco-7/using-umbraco-7/53798-Unit-Testing
+
+https://our.umbraco.com/documentation/Implementation/Unit-Testing/
+
+https://garycheetham.com/2017/01/29/mocking-umbracohelper-using-dependency-injection-the-right-way/
+
 #### others
 
 https://www.jordanbradleyward.com/umbraco/umbraco-initial-developer-workshop/
