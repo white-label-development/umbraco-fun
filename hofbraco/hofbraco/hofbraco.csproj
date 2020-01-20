@@ -464,12 +464,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Data\Models\About.generated.cs" />
+    <Compile Include="App_Data\Models\BlogItem.generated.cs" />
     <Compile Include="App_Data\Models\Booking.generated.cs" />
     <Compile Include="App_Data\Models\ContentControls.generated.cs" />
     <Compile Include="App_Data\Models\File.generated.cs" />
     <Compile Include="App_Data\Models\Folder.generated.cs" />
+    <Compile Include="App_Data\Models\Hofticle.generated.cs" />
+    <Compile Include="App_Data\Models\Hofticles.generated.cs" />
     <Compile Include="App_Data\Models\Home.generated.cs" />
     <Compile Include="App_Data\Models\Image.generated.cs" />
+    <Compile Include="App_Data\Models\ImageControls.generated.cs" />
     <Compile Include="App_Data\Models\Member.generated.cs" />
     <Compile Include="App_Data\Models\VisibilityControls.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -497,10 +501,8 @@
     <Content Include="Views\Partials\Grid\Editors\Base.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
-    <Content Include="Views\content.cshtml" />
     <Content Include="Views\home.cshtml" />
     <Content Include="Views\master.cshtml" />
-    <Content Include="Views\VisibilityControls.cshtml" />
     <Content Include="vendor\bootstrap\css\bootstrap-grid.css.map" />
     <Content Include="vendor\bootstrap\css\bootstrap-grid.min.css.map" />
     <Content Include="vendor\bootstrap\css\bootstrap-reboot.css.map" />
@@ -525,6 +527,12 @@
     <Content Include="vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="vendor\jquery\jquery.min.map" />
     <Content Include="vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Views\About.cshtml" />
+    <Content Include="Views\Booking.cshtml" />
+    <Content Include="Views\ContentControls.cshtml" />
+    <Content Include="Views\Hofticle.cshtml" />
+    <Content Include="Views\Hofticles.cshtml" />
+    <Content Include="Views\Partials\pageHeader.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

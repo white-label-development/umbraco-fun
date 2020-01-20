@@ -1,0 +1,42 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+
+    var img = Model as IImageControls;
+    string imageUrl = null;
+    if (img != null)
+    {
+        imageUrl = img.MainImage?.Url;
+    }
+
+    var content = Model as IContentControls;
+    string title = null;
+    string subTitle = null;
+
+    if (content != null)
+    {
+        title = content.Title;
+        subTitle = content.SubTitle;
+    }
+
+
+}
+<header class="masthead" style="@(!string.IsNullOrWhiteSpace(imageUrl) ? "background-image: url('" + imageUrl +"')" : null)">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    @if (!string.IsNullOrWhiteSpace(title))
+                    {
+                        <h1>@title</h1>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(subTitle))
+                    {
+                        <h2 class="subheading">@subTitle</h2>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

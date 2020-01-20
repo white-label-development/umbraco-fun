@@ -1,7 +1,34 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Home>
 @{
 	Layout = "master.cshtml";
+
+	var home = Model;
+	var title = home.Title ?? home.Name;
+	var subTitle = home.SubTitle;
+
 }
 
-HOME
+<!-- Page Header  '/img/home-bg.jpg  <img src="https://media.giphy.com/media/k6Wm3KbGfY7rk6PK4L/giphy.gif" /> -->
+<header class="masthead" style="background-image: url('https://media.giphy.com/media/k6Wm3KbGfY7rk6PK4L/giphy.gif');padding-top:-60px;">>
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+				<div class="site-heading">
+					<h1>@title</h1>
+					<span class="subheading">@subTitle</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-8 col-md-10 mx-auto">
+			@Html.GetGridHtml(Model,"mainContent")
+		</div>
+	</div>
+</div>
 
