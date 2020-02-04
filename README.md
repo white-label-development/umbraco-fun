@@ -3,22 +3,31 @@
 learning umbraco....
 
 
-tutorials are all a bit basic - but I am a beginner so lets see how this goes.
+tutorials are all a bit basic - but I am a beginner so lets see how this goes. Created the David Hasselhof tribute site as a simple work area, and treven.co.uk as a real world, slightly overblown (could be simpler, but then I'd miss learning opportunities)
 
 xxxx.localtest.me > 127.0.0.1 trick is new (not Um specific)
 
-### "Implementor tips"
+### "Implementor tips" / Different DocType usages
 
 Create pages, but without direct 'properties'. Instead, create Compositions and apply these to the pages.
-eg:
-New Compostion > Document Type without a Template > "Visibility Controls" > add umbracoNaviHide > TrueFalse. add hideFromXmlMap > true false. 
+eg:New Compostion > Document Type without a Template > "Visibility Controls" > add umbracoNaviHide > TrueFalse. add hideFromXmlMap > true false. 
 
 Other compositions might be "Content Controls", "Article Controls", "Header Controls". Of note: "Contact Form Controls" - which contains entries for a SucessMessage and a FailureMessage. Good idea!
 
 Use of Elements for icons, for use in nested content etc.
 
+To reiterate (with help from Moriyama) broadly speaking there are: 
 
++ ‘Compositions’ - used to group properties together and reuse them in the construction of other Document Types
++ ‘Elements’ - these new smaller schema configurations for defining repeating items in Nested Content
++ ‘Folders’ - I suggest organising ‘each’ type of Document Type into separate folders
 
+ And Document Types themselves for creating Content Items which break down into:
+
++ ‘Pages’ - the pages of the site, document types with defined templates - these pages have ‘Urls’
++ ‘Components’ - items in the content tree without a template, they have no external Url - often to be ‘picked’ to share content across multiple pages. NT: and often a datastore, like a row in a table
+
+NB: ‘Components’ here isn’t a proper ‘Umbraco term’ - some people call them widgets, or cogs or resources, pods, or blocks etc etc, and you start to see how not having a common domain language for things creates confusion…
 
 ## snippets - mostly regarding data access.
 
@@ -470,7 +479,8 @@ Each published content has a url segment, a.k.a. “urlName”.
 #### the most important umbraco link ever is this:
 https://our.umbraco.com/documentation/reference/common-pitfalls/
 
-
+### codegardens ...
+https://our.umbraco.com/videos/codegarden/
 
 
 #### quickly snagged these off codeshare
