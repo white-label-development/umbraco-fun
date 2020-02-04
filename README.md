@@ -181,7 +181,7 @@ Services.ContentServices.SaveAndPublish(newComment);
 
 ```
 
-#### Querying Umbraco data
+#### Querying Umbraco data (across time 'cos it changes a lot in different versions)
 
 If you are working in a custom MVC Controller's action, a model of type `RenderModel` will be provided in the Action's method parameters. This model contains an instance of `IPublishedContent` which you can use.
 
@@ -192,6 +192,9 @@ All Umbraco view page types inherit from `UmbracoViewPage<TModel>`. A neat trick
 `@Umbraco.Field("promoTitle")`
 This seems to be the standard way to get data entered into a DocumentType (page) using the @Umbraco helper. 
 To clarify, we are on Blob Post "About Bob" and getting the information we entered into that particular post - not data elsewhere.
+
+With an older Umbraco implementation you might find `Model.Content.GetPropertyValue<string>(“subTitle”)` to write out a property value in a template, or `Umbraco.Field(“subTitle”)`. In V8 the syntax has become `Model.Value<string>(“subTitle”)`
+
 
 ```var selection = Model.Content.Site().Children().Where(x => x.IsVisible())
 @Item.Url, @Item.Name
@@ -538,3 +541,5 @@ https://skrift.io/articles/archive/testing-the-performance-of-querying-umbraco/
 https://our.umbraco.com/documentation/Reference/Routing/Request-Pipeline/document/TheUmbracoRequestPipeline.pdf
 
 https://www.stephengarside.co.uk/blog/umbraco-custom-dropdown-macro-property/
+
+https://moriyama.co.uk/about-us/news/content-versions-new-umbraco-healthcheck/
