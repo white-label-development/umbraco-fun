@@ -543,3 +543,5 @@ https://our.umbraco.com/documentation/Reference/Routing/Request-Pipeline/documen
 https://www.stephengarside.co.uk/blog/umbraco-custom-dropdown-macro-property/
 
 https://moriyama.co.uk/about-us/news/content-versions-new-umbraco-healthcheck/
+
+https://thesitedoctor.co.uk/blog/how-to-quickly-set-umbraco-file-and-folder-permissions-with-powershell/
