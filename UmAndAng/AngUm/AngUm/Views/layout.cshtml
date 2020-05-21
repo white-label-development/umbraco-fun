@@ -1,0 +1,23 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    Layout = null;
+}
+
+<html>
+    <head>
+        <base href="/">
+        <title>Hello @Model.Name</title>
+    </head>
+    <body>
+        <div class="container">
+            <p><a href="/">HOME</a></p>
+            
+            <p><a href="/about">About</a></p>
+
+            <p><a href="/app">Ang</a></p>
+        </div>
+        <hr/>
+        @RenderBody()
+    </body>
+</html>
+                        
