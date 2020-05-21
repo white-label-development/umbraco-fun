@@ -1,18 +1,23 @@
 ﻿
-@{
-    Layout = null;
-}
+@{ Layout = "../layout.cshtml"; }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>AngularAppView</title>
-</head>
-<body>
-    <div>
-        AngularAppView
-    </div>
-</body>
-</html>
+<app-root></app-root>
+
+<!-- need to re do this so it come from a bundle of everything in /Angular/dist/ (except index.html
+    see https://stackoverflow.com/questions/13990622/asp-net-mvc-exclude-css-file-from-bundle
+
+    -->
+<script src="~/Angular/dist/clipshare/runtime-es2015.js" type="module"></script>
+<script src="~/Angular/dist/clipshare/runtime-es5.js" nomodule defer></script>
+<script src="~/Angular/dist/clipshare/polyfills-es5.js" nomodule defer></script>
+<script src="~/Angular/dist/clipshare/polyfills-es2015.js" type="module"></script>
+<script src="~/Angular/dist/clipshare/styles-es2015.js" type="module"></script>
+<script src="~/Angular/dist/clipshare/styles-es5.js" nomodule defer></script>
+<script src="~/Angular/dist/clipshare/vendor-es2015.js" type="module"></script>
+<script src="~/Angular/dist/clipshare/vendor-es5.js" nomodule defer></script>
+<script src="~/Angular/dist/clipshare/main-es2015.js" type="module"></script>
+<script src="~/Angular/dist/clipshare/main-es5.js" nomodule defer></script>
+
+
+

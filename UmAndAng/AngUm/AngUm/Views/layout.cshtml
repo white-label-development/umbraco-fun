@@ -1,12 +1,13 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
     Layout = null;
+    string modelName = Model == null ? "app" : Model.Name; // need this for now because /app has no model, but can probably add one in from the AngularAppController
 }
 
 <html>
     <head>
-        <base href="/">
-        <title>Hello @Model.Name</title>
+        <base href="/app">
+        <title>Hello @modelName</title>
     </head>
     <body>
         <div class="container">

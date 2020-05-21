@@ -11,7 +11,7 @@ namespace AngUm.Controllers
     {
         public ActionResult AngularAppView()
         {
-            return View();
+            return View(); //chuck in empty model that inherits from Umbraco view model?
         }
 
         public ActionResult Hello()
