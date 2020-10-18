@@ -2,21 +2,24 @@
 
 learning umbraco....
 
+Tutorials are all a bit basic - but I am a beginner so lets see how this goes.
 
-tutorials are all a bit basic - but I am a beginner so lets see how this goes. Created the David Hasselhof tribute site as a simple work area, and treven.co.uk as a real world, slightly overblown (could be simpler, but then I'd miss learning opportunities)
++ Created the David Hasselhof tribute site as a simple work area,
++ Created treven.co.uk as a real world, slightly overblown project (could be simpler, but then I'd miss learning opportunities)
 
-xxxx.localtest.me > 127.0.0.1 trick is new (not Um specific)
+`xxxx.localtest.me > 127.0.0.1` trick is new to me (not Um specific)
 
-### "Implementor tips" / Different DocType usages
+## "Implementor tips" / Different DocType usages
 
-Create pages, but without direct 'properties'. Instead, create Compositions and apply these to the pages.
-eg:New Compostion > Document Type without a Template > "Visibility Controls" > add umbracoNaviHide > TrueFalse. add hideFromXmlMap > true false. 
++ Create pages, but without direct 'properties'. Instead, create Compositions and apply these to the pages.
+
+eg: New Compostion > Document Type without a Template > "Visibility Controls" > add umbracoNaviHide > TrueFalse. add hideFromXmlMap > true false.
 
 Other compositions might be "Content Controls", "Article Controls", "Header Controls". Of note: "Contact Form Controls" - which contains entries for a SucessMessage and a FailureMessage. Good idea!
 
 Use of Elements for icons, for use in nested content etc.
 
-To reiterate (with help from Moriyama) broadly speaking there are: 
+To reiterate (with help from Moriyama) broadly speaking there are:
 
 + ‘Compositions’ - used to group properties together and reuse them in the construction of other Document Types
 + ‘Elements’ - these new smaller schema configurations for defining repeating items in Nested Content
@@ -29,7 +32,7 @@ To reiterate (with help from Moriyama) broadly speaking there are:
 
 NB: ‘Components’ here isn’t a proper ‘Umbraco term’ - some people call them widgets, or cogs or resources, pods, or blocks etc etc, and you start to see how not having a common domain language for things creates confusion…
 
-## snippets - mostly regarding data access.
+## snippets - mostly regarding data access
 
 IPublishedContent is the standard model used for all published content.
 
